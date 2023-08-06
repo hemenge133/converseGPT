@@ -5,5 +5,5 @@ Talk to chatgpt (with langchain) using whisper for STT and google TTS
 ```
 sudo apt install portaudio19-dev python3-pyaudio ffmpeg libcudnn8
 pip install -r requirements.txt
-python 
+python chatGPT.py
 ```
