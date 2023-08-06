@@ -1,5 +1,5 @@
 # converseGPT
-Talk to chatgpt (with langchain) using whisper for STT and google TTS
+Talk to chatgpt (with langchain) using faster-whisper for STT and google TTS
 
 # Quickstart (using Ubuntu2004, CUDA enabled)
 ```
