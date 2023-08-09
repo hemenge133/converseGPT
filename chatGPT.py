@@ -5,6 +5,14 @@ import os
 from langchain.chat_models import ChatOpenAI
 from ctypes import *
 from contextlib import contextmanager
+from langchain.prompts import (
+    ChatPromptTemplate,
+    MessagesPlaceholder,
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+)
+from langchain.chains import LLMChain
+from langchain.memory import ConversationBufferMemory 
 
 from dotenv import load_dotenv
 
@@ -35,21 +43,26 @@ with noalsaerr():
     listen = SpeechRecognizer()
     speak = Speak()
 
-messages = [
-    SystemMessage(content=systemprompt)
-]
+prompt = ChatPromptTemplate(
+        messages=[
+            SystemMessagePromptTemplate.from_template(systemprompt),
+            MessagesPlaceholder(variable_name="chat_history"),
+            HumanMessagePromptTemplate.from_template("{message}")
+        ]
+    )
+
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+conversation = LLMChain(
+    llm=chat,
+    prompt=prompt,
+    memory=memory
+)
 
 print("ready")
 while True:
     with noalsaerr():
         message = listen.listen()
-    print("Me: " + message)    
-
-    messages.append(HumanMessage(content=message))
-    response = chat.predict_messages(messages).content
-
+    response = conversation({"message": message})
+    response = response["text"]
     with noalsaerr():
         speak.speak(response)
-
-    print("ChatGPT: " + response)
-    messages.append((AIMessage(content=response)))
