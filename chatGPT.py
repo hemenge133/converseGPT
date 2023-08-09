@@ -33,9 +33,9 @@ def noalsaerr():
 
 # Model Inputs / Variables
 
-systemprompt="AI will track food intake, figuring out the user's intake for the day in calorie and macronutrient counts. In every message AI will output the totals for the conversation like this: \"Protein: Xg Carbs: Xg Fat: Xg Calories: X.\" The only output besides that format will be to ask clarifying questions on food type, quantity, etc. AI will infer quantities based on what a normal serving is. The AI will respond without prose or explaination, quantities and questions only."
+systemprompt="You are a helpful assistant."
 
-model_kwargs = {"top_p": 1, "frequency_penalty": 0.1, "presence_penalty": 0.1}
+# model_kwargs = {"top_p": 1, "frequency_penalty": 0.1, "presence_penalty": 0.1}
 
 chat = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.5, model_kwargs=model_kwargs)
 
