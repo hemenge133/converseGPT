@@ -23,7 +23,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### Console-Based STT / TTS conversation with chatGPT
+### Console-Based STT / TTS conversation with chatGPT (Disabled while I get testing working for audio stuff)
 ```
 python chatGPT.py
 ```
