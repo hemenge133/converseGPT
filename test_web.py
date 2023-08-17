@@ -1,6 +1,9 @@
 import pytest
 import os
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
 
 def test_html_client():
     current_path = os.path.abspath(os.path.dirname(__file__))
@@ -9,9 +12,9 @@ def test_html_client():
     driver = webdriver.Firefox()
     driver.get(f"file://{html_file_path}")
 
-    # Find the input box and the send button
-    input_box = driver.find_element_by_id("input-id")  # Replace with correct ID
-    send_button = driver.find_element_by_id("send-button-id")  # Replace with correct ID
+    # Find the input box and the send button find_element(by=By.CSS_SELECTOR, value=css_selector)
+    input_box = driver.find_element_by_css_selector('input[type="text"].flex-grow[placeholder="Type a message..."]')
+    send_button = driver.find_element_by_id("send-button")  # Replace with correct ID
 
     # Type text and click the send button
     input_box.send_keys("Hello World")
