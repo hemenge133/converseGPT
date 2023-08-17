@@ -4,12 +4,15 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.firefox.options import Options
 
 def test_html_client():
     current_path = os.path.abspath(os.path.dirname(__file__))
     html_file_path = os.path.join(current_path, 'index.html')
 
-    driver = webdriver.Firefox()
+    options = Options()
+    options.headless = True
+    driver = webdriver.Firefox(options=options)
     driver.get(f"file://{html_file_path}")
 
     # Find the input box and the send button find_element(by=By.CSS_SELECTOR, value=css_selector)
