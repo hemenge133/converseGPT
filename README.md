@@ -7,7 +7,8 @@
 OPENAI_API_KEY="sk-***"
 ```
 
-# Quickstart STT/TTS Console Application (using Ubuntu2004, CUDA enabled)
+# Quickstart STT/TTS Console Application
+## (using Ubuntu2004, CUDA enabled)
 ```
 sudo apt install portaudio19-dev python3-pyaudio ffmpeg libcudnn8
 pip install -r requirements.txt
@@ -16,6 +17,8 @@ python chatGPT.py
 
 # Text only web UI similar to chatGPT
 ```
-python server.py
+sudo apt install portaudio19-dev python3-pyaudio ffmpeg libcudnn8
+pip install -r requirements.txt
+python server.py &
+open index.html
 ```
-And open index.html with your web browser
