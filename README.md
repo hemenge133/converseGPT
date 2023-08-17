@@ -9,16 +9,26 @@ OPENAI_API_KEY="sk-***"
 
 # Quickstart STT/TTS Console Application
 ## (using Ubuntu2004, CUDA enabled)
+
+### Install Dependencies
 ```
-sudo apt install portaudio19-dev python3-pyaudio ffmpeg libcudnn8
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
+sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
+sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
+sudo apt-get update
+sudo apt-get install -y portaudio19-dev python3-pyaudio ffmpeg libcudnn8 flask flask-cors
+python -m pip install --upgrade pip
 pip install -r requirements.txt
+```
+
+### Console-Based STT / TTS conversation with chatGPT
+```
 python chatGPT.py
 ```
 
 # Text only web UI similar to chatGPT
 ```
-sudo apt install portaudio19-dev python3-pyaudio ffmpeg libcudnn8
-pip install -r requirements.txt
 python server.py &
 open index.html
 ```
