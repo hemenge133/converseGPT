@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify, make_response
 from chatGPT import chat, reset
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/send_message', methods=['POST'])
 def send_message():
