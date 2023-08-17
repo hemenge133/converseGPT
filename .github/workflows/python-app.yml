@@ -41,7 +41,7 @@ jobs:
         sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
         sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
         sudo apt-get update
-        sudo apt-get install -y portaudio19-dev python3-pyaudio ffmpeg libcudnn8 firefox-geckodriver
+        sudo apt-get install -y portaudio19-dev python3-pyaudio ffmpeg libcudnn8 firefox-geckodriver firefox
         python -m pip install --upgrade pip
         pip install flake8 pytest selenium flask flask-cors
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
