@@ -16,8 +16,8 @@ def test_html_client():
     driver.get(f"file://{html_file_path}")
 
     # Find the input box and the send button find_element(by=By.CSS_SELECTOR, value=css_selector)
-    input_box = driver.find_element_by_css_selector('input[type="text"].flex-grow[placeholder="Type a message..."]')
-    send_button = driver.find_element_by_id("send-button")  # Replace with correct ID
+    input_box = driver.find_element(by=By.CSS_SELECTOR, value='input[type="text"].flex-grow[placeholder="Type a message..."]')
+    send_button = driver.find_element(by=By.ID, value="send-button")  # Replace with correct ID
 
     # Type text and click the send button
     input_box.send_keys("Hello World")
