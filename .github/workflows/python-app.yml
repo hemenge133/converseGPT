@@ -32,7 +32,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y portaudio19-dev python3-pyaudio ffmpeg libcudnn8 firefox-geckodriver
         python -m pip install --upgrade pip
-        pip install flake8 pytest selenium
+        pip install flake8 pytest selenium flask
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
