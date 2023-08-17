@@ -1,5 +1,6 @@
 # converseGPT
 ## Talk to chatgpt (with langchain) using faster-whisper for STT and google TTS
+![alt text](https://github.com/hemenge133/converseGPT/blob/main/ss.png?raw=true)
 
 # Prerequisites
 - Add your OpenAI API key to a file called .env
