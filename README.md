@@ -17,5 +17,5 @@ python chatGPT.py
 # Text only web UI similar to chatGPT
 ```
 python server.py
+open index.html
 ```
-And open index.html with your web browser
