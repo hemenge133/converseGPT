@@ -35,7 +35,7 @@ def noalsaerr():
 
 systemprompt="You are a helpful assistant."
 
-# model_kwargs = {"top_p": 1, "frequency_penalty": 0.1, "presence_penalty": 0.1}
+model_kwargs = {"top_p": 1, "frequency_penalty": 0.1, "presence_penalty": 0.1}
 
 chat = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.5, model_kwargs=model_kwargs)
 
@@ -58,11 +58,32 @@ conversation = LLMChain(
     memory=memory
 )
 
-print("ready")
-while True:
-    with noalsaerr():
-        message = listen.listen()
+
+"""
+Simple single-user API for now. POST at http:server-ip:5000/send_message
+"""
+def chat(message):
     response = conversation({"message": message})
-    response = response["text"]
-    with noalsaerr():
-        speak.speak(response)
+    return response["text"]
+
+"""
+Reset the chat if the page is reloaded
+"""
+def reset():
+    memory.clear()
+
+"""
+Running this module as the main function ie. `python chatGPT.py` will launch converseGPT with STT/TTS
+"""
+def main():
+    print("ready")
+    while True:
+        with noalsaerr():
+            message = listen.listen()
+        response = conversation({"message": message})
+        response = response["text"]
+        with noalsaerr():
+            speak.speak(response)
+
+if __name__ == "__main__":
+    main()

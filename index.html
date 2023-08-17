@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
+    <title>Chef</title>
+    <style>
+        body {
+            background-color: #f5f8fa; /* Set background color to match profile-container */
+        }
+
+        .container {
+            max-width: 100%; /* Allow container to take full width */
+            height: 100vh; /* Set height to 100% of the viewport */
+        }
+
+        .top-bar {
+            background-color: #2c3e50; /* Darker color */
+            padding: 10px 20px;
+            text-align: center;
+            margin: 0; /* Remove any margin */
+        }
+
+        .chat-bubble-user {
+            background-color: #f0f4f8;
+            color: #2c3e50;
+            padding: 10px 15px;
+            border-radius: 18px;
+            border-bottom-right-radius: 0; /* Change here */
+            max-width: 80%;
+        }
+
+        .chat-bubble-ai {
+            background-color: #d1d8e0;
+            color: #2c3e50;
+            padding: 10px 15px;
+            border-radius: 18px;
+            border-bottom-left-radius: 0; /* Change here */
+            max-width: 80%;
+        }
+
+        .chat-container {
+            padding: 15px;
+            border: 1px solid #e1e8ed;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-container {
+            background-color: #f5f8fa;
+            padding: 15px;
+            border-right: 1px solid #e1e8ed;
+        }
+
+        /* New styling for the input bar and send button */
+        .input-container {
+            padding: 20px;
+            margin-bottom: 25px;
+            margin-top: 25px;
+            background-color: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 25px; /* Rounded corners */
+        }
+
+        input[type="text"] {
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            padding: 8px;
+        }
+
+        #send-button {
+            background: none;
+            border: none;
+            color: #2c3e50;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+
+        .top-bar h2 {
+            font-size: 30px;
+            font-weight: bolder;
+            color: #f0f4f8; 
+        }
+
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+        const userInput = document.querySelector('input[placeholder="Type a message..."]');
+        fetch('http://localhost:5000/reset_chat_agent')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Handle the response if needed
+            })
+            .catch(error => console.error('An error occurred:', error));
+
+        // Function to handle sending messages
+        function sendMessage() {
+            const userMessage = userInput.value;
+
+            // Append the user's message to the chat area
+            const chatArea = document.querySelector('.flex-grow.overflow-y-auto');
+            const userDiv = document.createElement('div');
+            userDiv.className = 'mb-4 flex items-end justify-end';
+            userDiv.innerHTML = `<div class="chat-bubble-user">${userMessage}</div>`;
+            chatArea.appendChild(userDiv);
+
+            // Clear the input field
+            userInput.value = '';
+
+            // Send the user's message to the server
+            fetch('http://localhost:5000/send_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({message: userMessage}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Append the AI's response to the chat area
+                const responseDiv = document.createElement('div');
+                responseDiv.className = 'mb-4 flex items-end';
+                responseDiv.innerHTML = `<div class="chat-bubble-ai">${data.response}</div>`;
+                chatArea.appendChild(responseDiv);
+            })
+            .catch(error => console.error('An error occurred:', error));
+        }
+
+        // Event listener for "Send" button click
+        document.getElementById('send-button').addEventListener('click', sendMessage);
+
+        // Event listener for "Enter" key press in the text input field
+        userInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent newline in the input field
+                sendMessage(); // Call the send message function
+            }
+        });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+        // Send a GET request to reset the chat agent
+        
+
+        // Existing code for handling messages
+        // ...
+        });
+    </script>
+</head>
+<body class="bg-gray-200">
+    <div class="container mx-auto flex h-screen">
+      <!-- Profile Container -->
+      <div class="profile-container w-1/4 p-6">
+        <!-- Profile Avatar -->
+        <div class="flex justify-center mb-4">
+            <div class="bg-blue-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold">
+                H
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="text-lg font-semibold">
+            <li class="p-2 hover:bg-gray-100">User Data</li>
+            <li class="p-2 bg-blue-100 text-blue-700">Chat</li>
+            <li class="p-2 hover:bg-gray-100">Previous Conversations</li>
+            <li class="p-2 hover:bg-gray-100">Profile</li>
+            <li class="p-2 hover:bg-gray-100">Settings</li>
+        </ul>
+      </div>
+      <div class="w-3/4 flex flex-col h-full">
+        <div class="top-bar">
+          <h2>Chef</h2>
+        </div>
+        <div class="chat-container p-6 flex-grow overflow-y-auto">
+          <!-- Chat bubbles here -->
+        </div>
+        <!-- Input Bar and Send Button -->
+        <div class="flex-shrink-0 flex justify-center">
+            <div class="input-container mt-2 flex flex-grow max-w-lg"> <!-- Change here -->
+                <input type="text" class="flex-grow" placeholder="Type a message...">
+                <button id="send-button" class="p-2 ml-2">→</button> <!-- Change here -->
+            </div>
+        </div>
+      </div>
+    </div>
+  </body>  
+</html>
+
