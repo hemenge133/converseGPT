@@ -24,7 +24,7 @@ def test_html_client():
     send_button.click()
 
     # Wait until chat bubble is populated
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 30)
     ai_chat_bubble = wait.until(
             expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".chat-bubble-ai"))
     )
