@@ -19,6 +19,6 @@ python chatGPT.py
 ```
 sudo apt install portaudio19-dev python3-pyaudio ffmpeg libcudnn8
 pip install -r requirements.txt
-python server.py
+python server.py &
 open index.html
 ```
