@@ -37,10 +37,10 @@ jobs:
           ${{ runner.os }}-pip-
     - name: Prepare to install dependencies
       run: |
-        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
-        sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
-        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
-        sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
+        # wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
+        # sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
+        # sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
+        # sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
         # sudo apt-get update
         # nvidia repository broke today or yesterday (8/18/2023) until its fixed we will get a hash mismatch running apt-get update
     - name: Install / Cache APT Packages
