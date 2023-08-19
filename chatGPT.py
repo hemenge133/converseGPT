@@ -11,7 +11,8 @@ from langchain.prompts import (
 )
 from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory 
-
+from record import SpeechRecognizer
+from speak import Speak
 from dotenv import load_dotenv
 
 load_dotenv()
