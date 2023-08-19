@@ -26,11 +26,11 @@ pip install -r requirements.txt
 
 ### Console-Based STT / TTS conversation with chatGPT (Disabled while I get testing working for audio stuff)
 ```
-python chatGPT.py
+python src/chatGPT.py
 ```
 
 # Text only web UI similar to chatGPT
 ```
-python server.py &
-open index.html
+python src/server.py &
+firefox index.html
 ```
