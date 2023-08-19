@@ -1,5 +1,5 @@
 # converseGPT
-## Talk to chatgpt (with langchain) using faster-whisper for STT and google TTS
+## [py3.10.2] Talk to chatgpt (with langchain) using faster-whisper for STT and google TTS
 ![alt text](https://github.com/hemenge133/converseGPT/blob/main/ss_dark.png?raw=true)
 ![alt text](https://github.com/hemenge133/converseGPT/blob/main/ss_light.png?raw=true)
 
