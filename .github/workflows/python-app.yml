@@ -42,7 +42,6 @@ jobs:
         sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A4B469963BF863CC
         sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
         sudo apt-get update
-        nvidia repository broke today or yesterday (8/18/2023) until its fixed we will get a hash mismatch running apt-get update
     - name: Install / Cache APT Packages
       uses: awalsh128/cache-apt-pkgs-action@v1.3.0
       with:
