@@ -3,9 +3,10 @@ import speech_recognition as sr
 import os
 
 class SpeechRecognizer:
-    def __init__(self, ambient_duration=1):
+    def __init__(self):
         self.recognizer = sr.Recognizer()
 
+    def adjustForBackgroundNoise(self, ambient_duration=1):
         with sr.Microphone() as source:
             self.recognizer.adjust_for_ambient_noise(source, duration=ambient_duration)
 
