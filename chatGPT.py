@@ -2,7 +2,6 @@ from langchain.schema import HumanMessage, AIMessage, SystemMessage
 import os
 from langchain.chat_models import ChatOpenAI
 from ctypes import *
-from contextlib import contextmanager
 from langchain.prompts import (
     ChatPromptTemplate,
     MessagesPlaceholder,
@@ -11,8 +10,6 @@ from langchain.prompts import (
 )
 from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory 
-from record import SpeechRecognizer
-from speak import Speak
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -40,23 +37,6 @@ conversation = LLMChain(
     memory=memory
 )
 
-@contextmanager
-def noalsaerr():
-    ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
-
-    def py_error_handler(filename, line, function, err, fmt):
-        pass
-
-    c_error_handler = ERROR_HANDLER_FUNC(py_error_handler)
-    asound = cdll.LoadLibrary('libasound.so')
-    asound.snd_lib_error_set_handler(c_error_handler)
-    yield
-    asound.snd_lib_error_set_handler(None)
-
-with noalsaerr():
-    listen = SpeechRecognizer()
-    speak = Speak()
-
 """
 Simple single-user API for now. POST at http:server-ip:5000/send_message
 """
@@ -74,6 +54,25 @@ def reset():
 Running this module as the main function ie. `python chatGPT.py` will launch converseGPT with STT/TTS
 """
 def main():
+    @contextmanager
+    def noalsaerr():
+        ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
+
+        def py_error_handler(filename, line, function, err, fmt):
+            pass
+
+        c_error_handler = ERROR_HANDLER_FUNC(py_error_handler)
+        asound = cdll.LoadLibrary('libasound.so')
+        asound.snd_lib_error_set_handler(c_error_handler)
+        yield
+        asound.snd_lib_error_set_handler(None)
+
+    with noalsaerr():
+        listen = SpeechRecognizer()
+        speak = Speak()
+
+
+    SpeechRecognizer.adjustForBackgroundNoise()
     print("ready")
     while True:
         with noalsaerr():
@@ -84,4 +83,7 @@ def main():
             speak.speak(response)
 
 if __name__ == "__main__":
+    from record import SpeechRecognizer
+    from speak import Speak
+    from contextlib import contextmanager
     main()
