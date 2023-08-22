@@ -89,16 +89,29 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-        const userInput = document.querySelector('input[placeholder="Type a message..."]');
-        fetch('http://localhost:5000/reset_chat_agent')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                // Handle the response if needed
-            })
-            .catch(error => console.error('An error occurred:', error));
+        // Prompt user for OPENAI API key
+        const api_key = prompt("Enter OpenAI API Key:");
 
+        if (api_key) {
+            fetch('http://localhost:5000/reset_chat_agent', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({api_key: api_key}),
+            })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  // Handle the response if needed
+              })
+              .catch(error => console.error('An error occurred:', error));
+        } else {
+            alert("API key is required to start the chat")
+        }
+
+        const userInput = document.querySelector('input[placeholder="Type a message..."]');
         // Function to handle sending messages
         function sendMessage() {
             const userMessage = userInput.value;
@@ -119,7 +132,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({message: userMessage}),
+                body: JSON.stringify({message: userMessage, api_key: api_key}),
             })
             .then(response => response.json())
             .then(data => {
@@ -142,15 +155,6 @@
                 sendMessage(); // Call the send message function
             }
         });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-        // Send a GET request to reset the chat agent
-        
-
-        // Existing code for handling messages
-        // ...
         });
     </script>
 </head>
