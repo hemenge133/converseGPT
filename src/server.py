@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, make_response
 from initChat import initChat
 from flask_cors import CORS
+from flask import send_from_directory
 from flask_apscheduler import APScheduler
 from datetime import datetime
 
@@ -23,6 +24,10 @@ def check_inactive_sessions():
         print(f"Session for {key} terminated")
 
 scheduler.add_job(id='Session Timeout', func=check_inactive_sessions, trigger='interval', seconds=60)
+
+@app.route('/', methods=['GET'])
+def serve_homepage():
+    return send_from_directory('../index.html')
 
 @app.route('/send_message', methods=['POST'])
 def send_message():
