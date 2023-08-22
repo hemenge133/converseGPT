@@ -11,7 +11,7 @@ load_dotenv()
 
 def test_html_client():
     current_path = os.path.abspath(os.path.dirname(__file__))
-    html_file_path = os.path.join(current_path, '..', 'index.html')
+    html_file_path = os.path.join(current_path, '..', 'src', 'index.html')
 
     options = Options()
     options.headless = True
