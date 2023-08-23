@@ -1,5 +1,5 @@
 # converseGPT
-## [py3.10.2] Talk to chatgpt (with langchain) using faster-whisper for STT and google TTS
+## Simple multi-user chatGPT-like interface. Uses langchain for llm middleware stuff, using embeddings, etc. Also works as a local STT/TTS environment to talk to chatGPT.
 ![alt text](https://github.com/hemenge133/converseGPT/blob/main/ss_dark.png?raw=true)
 ![alt text](https://github.com/hemenge133/converseGPT/blob/main/ss_light.png?raw=true)
 
@@ -12,7 +12,7 @@ OPENAI_API_KEY="sk-***"
 # Quickstart STT/TTS Console Application
 ## (using Ubuntu2004, CUDA enabled)
 
-### Install Dependencies
+### Install Dependencies [py3.10]
 ```
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
 sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
