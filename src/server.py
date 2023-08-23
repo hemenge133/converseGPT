@@ -27,7 +27,11 @@ scheduler.add_job(id='Session Timeout', func=check_inactive_sessions, trigger='i
 
 @app.route('/', methods=['GET'])
 def serve_homepage():
-    return send_from_directory('../index.html')
+    return send_from_directory('.', 'index.html')
+
+@app.route('/favicon.ico')
+def serve_favicon():
+    return send_from_directory('.', 'favicon.ico')
 
 @app.route('/send_message', methods=['POST'])
 def send_message():
@@ -52,4 +56,4 @@ def reset_chat_agent():
         return make_response("Session reset", 200)
     
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=80)
