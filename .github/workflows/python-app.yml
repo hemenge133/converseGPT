@@ -66,11 +66,11 @@ jobs:
         cd ..
     # - name: zip and upload to s3
     #   run: |
-    #     zip -r application_bundle.zip src/
-    #     aws s3 cp application_bundle.zip s3://cgpt-src/application_bundle.zip
+    #     zip -r app_bundle.zip src/
+    #     aws s3 cp application_bundle.zip s3://cgpt-src/app_bundle.zip
     # - name: Crate new EBS app version
     #   run: |
-    #     aws elasticbeanstalk create-application-version --application-name converseGPT --version-label $GITHUB_SHA --source-bundle S3Bucket="cgpt-src",S3Key="application_bundle.zip"
+    #     aws elasticbeanstalk create-application-version --application-name converseGPT --version-label $GITHUB_SHA --source-bundle S3Bucket="cgpt-src",S3Key="app_bundle.zip"
     # - name: Update EBS to new version
     #   run: |
-    #     aws elasticbeanstalk update-environment --environment-name ConverseGPT-env --version-label $GITHUB_SHA
+    #     aws elasticbeanstalk update-environment --environment-name cgpt-env --version-label $GITHUB_SHA
