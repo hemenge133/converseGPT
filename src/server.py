@@ -21,7 +21,7 @@ def check_inactive_sessions():
             keys_to_remove.append(key)
     for key in keys_to_remove:
         del sessions[key]
-        print(f"Session for {key} terminated")
+        print("Session for " + key + " terminated")
 
 scheduler.add_job(id='Session Timeout', func=check_inactive_sessions, trigger='interval', seconds=60)
 
@@ -56,4 +56,4 @@ def reset_chat_agent():
         return make_response("Session reset", 200)
     
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=5000)

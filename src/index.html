@@ -93,7 +93,7 @@
         const api_key = prompt("Enter OpenAI API Key:");
 
         if (api_key) {
-            fetch('http://localhost:5000/reset_chat_agent', {
+            fetch('http://converseGPT.us-east-2.elasticbeanstalk.com/reset_chat_agent', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -127,7 +127,7 @@
             userInput.value = '';
 
             // Send the user's message to the server
-            fetch('http://localhost:5000/send_message', {
+            fetch('http://converseGPT.us-east-2.elasticbeanstalk.com/send_message', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
