@@ -5,10 +5,10 @@ from flask import send_from_directory
 from flask_apscheduler import APScheduler
 from datetime import datetime
 
-app = Flask(__name__)
-CORS(app)
+application = Flask(__name__)
+CORS(application)
 scheduler = APScheduler()
-scheduler.init_app(app)
+scheduler.init_app(application)
 scheduler.start()
 
 sessions = {} # Dictionary to store user sessions keyed by OPENAI API key
@@ -25,15 +25,15 @@ def check_inactive_sessions():
 
 scheduler.add_job(id='Session Timeout', func=check_inactive_sessions, trigger='interval', seconds=60)
 
-@app.route('/', methods=['GET'])
+@application.route('/', methods=['GET'])
 def serve_homepage():
     return send_from_directory('.', 'index.html')
 
-@app.route('/favicon.ico')
+@application.route('/favicon.ico')
 def serve_favicon():
     return send_from_directory('.', 'favicon.ico')
 
-@app.route('/send_message', methods=['POST'])
+@application.route('/send_message', methods=['POST'])
 def send_message():
     api_key = request.json.get('api_key')
     user_message = request.json.get('message')
@@ -43,7 +43,7 @@ def send_message():
     response = session['conversation']({"message": user_message})["text"]
     return jsonify({'response': response})
 
-@app.route('/reset_chat_agent', methods=['POST'])
+@application.route('/reset_chat_agent', methods=['POST'])
 def reset_chat_agent():
     api_key = request.json.get('api_key')
     if api_key not in sessions:
@@ -56,4 +56,4 @@ def reset_chat_agent():
         return make_response("Session reset", 200)
     
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000)
+    application.run(host='0.0.0.0', port=8000)

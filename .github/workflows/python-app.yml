@@ -79,4 +79,4 @@ jobs:
         aws elasticbeanstalk create-application-version --application-name converseGPT --version-label $GITHUB_SHA --source-bundle S3Bucket="cgpt-src",S3Key="app_bundle.zip"
     - name: Update EBS to new version
       run: |
-        aws elasticbeanstalk update-environment --environment-name cgpt-env --version-label $GITHUB_SHA
+        aws elasticbeanstalk update-environment --environment-name cgpt --version-label $GITHUB_SHA
