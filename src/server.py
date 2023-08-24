@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, make_response
+import logging
 from initChat import initChat
 from flask_cors import CORS
 from flask import send_from_directory
@@ -10,6 +11,10 @@ CORS(application)
 scheduler = APScheduler()
 scheduler.init_app(application)
 scheduler.start()
+
+logging.basicConfig(level=logging.DEBUG)
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.DEBUG)
 
 sessions = {} # Dictionary to store user sessions keyed by OPENAI API key
 
@@ -24,6 +29,11 @@ def check_inactive_sessions():
         print("Session for " + key + " terminated")
 
 scheduler.add_job(id='Session Timeout', func=check_inactive_sessions, trigger='interval', seconds=60)
+
+@application.before_request
+def log_request_info():
+    application.logger.debug('Headers: %s', request.headers)
+    application.logger.debug('Body: %s', request.get_data())
 
 @application.route('/', methods=['GET'])
 def serve_homepage():
@@ -56,4 +66,4 @@ def reset_chat_agent():
         return make_response("Session reset", 200)
     
 if __name__ == "__main__":
-    application.run(host='0.0.0.0', port=8000)
+    application.run(host='0.0.0.0', port=5000)
