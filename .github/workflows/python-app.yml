@@ -43,7 +43,7 @@ jobs:
         sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
         sudo apt-get update
     - name: Install / Cache APT Packages
-      uses: awalsh128/cache-apt-pkgs-action@staging
+      uses: awalsh128/cache-apt-pkgs-action@v1.3.0
       with:
         packages: portaudio19-dev python3-pyaudio ffmpeg libcudnn8 firefox-geckodriver firefox zip
     - name: Install Pip dependencies
