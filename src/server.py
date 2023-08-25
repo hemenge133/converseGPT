@@ -1,13 +1,12 @@
 from flask import Flask, request, jsonify, make_response
 import logging
 from initChat import initChat
-from flask_cors import CORS
 from flask import send_from_directory
 from flask_apscheduler import APScheduler
 from datetime import datetime
 
 application = Flask(__name__)
-CORS(application)
+# CORS(application)
 scheduler = APScheduler()
 scheduler.init_app(application)
 scheduler.start()
