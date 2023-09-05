@@ -8,6 +8,10 @@ import redis
 application = Flask(__name__)
 
 """
+TODO: Tests are currently only being run from the client side. Errors on the server side will still successfully deploy which is not ideal. There should just be a server specific test file and we'll run pytest on the server as well.
+"""
+
+"""
 Setup redis session cache
 """
 SESSION_TYPE = 'redis'
