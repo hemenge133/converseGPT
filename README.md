@@ -3,11 +3,16 @@
 
 
 ## Features
-- [WIP] Use a single config file to manage common model parameters and tools such as temperature or storing input embeddings.
-- [WIP] Scalable AWS backend (nginx, gunicorn, redis cache for sessions)
-- Uses langchain to call chatGPT by default, is easily extended to use other LLMs (see model integrations [here](https://python.langchain.com/docs/integrations/chat/))
 - Extensibility: langchain provides a number of useful abstractions and integrations with other tools. ie. Chains, Agents, Memory.
-  - The current configuration is meant to closely resemble chatGPT.
+    - The current configuration is meant to closely resemble chatGPT.
+    - Uses langchain to call chatGPT by default, is easily extended to use other LLMs (see model integrations [here](https://python.langchain.com/docs/integrations/chat/))
+- [WIP] Use a single config file to manage common model parameters and tools such as agent instructions and input embeddings.
+- [WIP] Scalable AWS backend
+    - [WIP] All components in autoscaling groups with containerized host images (AMIs) 
+    - CI/CD pipeline (GH actions) tracking last successful commit, auto rollback in case of test failures
+    - secure WSGI server (gunicorn)
+    - In-memory cache for sessions (redis)
+    - Proxy server
  
 ## [Live Demo](http://13.59.92.214/)
 Note: As this is currently more of a WIP than a product, you must use your own OpenAI API key in the live demo. 
