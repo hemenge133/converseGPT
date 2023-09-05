@@ -1,39 +1,37 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify, make_response, session
+from flask_session import Session
 import logging
 from initChat import initChat
 from flask import send_from_directory
-from flask_apscheduler import APScheduler
-from datetime import datetime
 
 application = Flask(__name__)
-# CORS(application)
-scheduler = APScheduler()
-scheduler.init_app(application)
-scheduler.start()
 
+"""
+Setup redis session cache
+"""
+SESSION_TYPE = 'redis'
+SESSION_PERMANENT = False # Close session when browser closes
+SESSION_USE_SIGNER = True # Encrypt the session cookie
+SESSION_KEY_PREFIX = 'redis_alpha:'
+SESSION_REDIS = redis.StrictRedis(host='localhost', port=6379, db=0)
+application.config.from_object(__name__)
+Session(application)
+
+"""
+Log all request info
+"""
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('werkzeug')
-log.setLevel(logging.DEBUG)
-
-sessions = {} # Dictionary to store user sessions keyed by OPENAI API key
-
-def check_inactive_sessions():
-    now = datetime.now()
-    keys_to_remove = []
-    for key, session in sessions.items():
-        if (now - session['last_activity']).seconds > 300: # 5 minutes
-            keys_to_remove.append(key)
-    for key in keys_to_remove:
-        del sessions[key]
-        print("Session for " + key + " terminated")
-
-scheduler.add_job(id='Session Timeout', func=check_inactive_sessions, trigger='interval', seconds=60)
+log.setLevel(logging.INFO)
 
 @application.before_request
 def log_request_info():
     application.logger.debug('Headers: %s', request.headers)
     application.logger.debug('Body: %s', request.get_data())
 
+"""
+Serve Homepage / favicon
+"""
 @application.route('/', methods=['GET'])
 def serve_homepage():
     return send_from_directory('.', 'index.html')
@@ -42,27 +40,33 @@ def serve_homepage():
 def serve_favicon():
     return send_from_directory('.', 'favicon.ico')
 
+"""
+Send a message to the current chat agent.
+"""
 @application.route('/send_message', methods=['POST'])
 def send_message():
-    api_key = request.json.get('api_key')
-    user_message = request.json.get('message')
-    if api_key not in sessions:
-        return make_response("Session not found, try refreshing", 404)
-    session = sessions[api_key]
+    api_key = request.json.get('api_key', default=None)
+    if not api_key:
+        return make_response("OpenAI API Key not found", 400)
+    user_message = request.json.get('message', default="")
     response = session['conversation']({"message": user_message})["text"]
     return jsonify({'response': response})
 
+"""
+Init the chat agent with a fresh memory. Page reload also triggers reset_chat_agent.
+"""
 @application.route('/reset_chat_agent', methods=['POST'])
 def reset_chat_agent():
-    api_key = request.json.get('api_key')
-    if api_key not in sessions:
+    api_key = request.json.get('api_key', default=None)
+    if not api_key:
+        return make_response("OpenAI API Key not found", 400)
+    try:
         memory, conversation = initChat(api_key)
-        sessions[api_key] = {'memory': memory, 'conversation': conversation, 'last_activity': datetime.now()}
+        session['memory'] = memory
+        session['conversation'] = conversation
         return make_response("Session Initialized", 200)
-    else:
-        sessions[api_key]['memory'].clear()
-        sessions[api_key]['last_activity'] = datetime.now()
-        return make_response("Session reset", 200)
+    except:
+        return make_response("Internal Server Error", 500)
     
 if __name__ == "__main__":
     application.run(host='0.0.0.0', port=5000)
