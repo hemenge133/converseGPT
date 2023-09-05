@@ -3,6 +3,7 @@ from flask_session import Session
 import logging
 from initChat import initChat
 from flask import send_from_directory
+import redis
 
 application = Flask(__name__)
 
