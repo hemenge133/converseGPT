@@ -46,10 +46,10 @@ Send a message to the current chat agent.
 """
 @application.route('/send_message', methods=['POST'])
 def send_message():
-    api_key = request.json.get('api_key', default=None)
+    api_key = request.json.get('api_key', None)
     if not api_key:
         return make_response("OpenAI API Key not found", 400)
-    user_message = request.json.get('message', default="")
+    user_message = request.json.get('message', "")
     response = session['conversation']({"message": user_message})["text"]
     return jsonify({'response': response})
 
@@ -58,7 +58,7 @@ Init the chat agent with a fresh memory. Page reload also triggers reset_chat_ag
 """
 @application.route('/reset_chat_agent', methods=['POST'])
 def reset_chat_agent():
-    api_key = request.json.get('api_key', default=None)
+    api_key = request.json.get('api_key', None)
     if not api_key:
         return make_response("OpenAI API Key not found", 400)
     try:
