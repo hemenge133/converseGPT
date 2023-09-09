@@ -8,11 +8,11 @@
     - Uses langchain to call chatGPT by default, is easily extended to use other LLMs (see model integrations [here](https://python.langchain.com/docs/integrations/chat/))
 - [WIP] Use a single config file to manage common model parameters and tools such as agent instructions and input embeddings.
 - [WIP] Scalable AWS backend
-    - [WIP] All components in autoscaling groups with containerized host images (AMIs) 
+    - [WIP] All components in autoscaling groups with containerized EC2 host images (AMIs) or something like terraform. 
     - CI/CD pipeline (GH actions) tracking last successful commit, auto rollback in case of test failures
-    - secure WSGI server (gunicorn)
-    - In-memory cache for sessions (redis)
-    - Proxy server
+    - WSGI server (gunicorn)
+    - Cache for sessions (redis)
+    - Proxy server (nginx)
  
 ## [Live Demo](http://13.59.92.214/)
 Note: As this is currently more of a WIP than a product, you must use your own OpenAI API key in the live demo. 
