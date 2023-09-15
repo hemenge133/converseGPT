@@ -46,7 +46,7 @@ jobs:
     - name: Install Pip dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest flask flask-session redis selenium
+        pip install flake8 pytest flask flask-session redis selenium python-dotenv
         if [ -f serve_requirements.txt ]; then pip install -r serve_requirements.txt; fi
     - name: Lint with flake8
       run: |
