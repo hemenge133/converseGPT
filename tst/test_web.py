@@ -10,13 +10,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def test_html_client():
-    current_path = os.path.abspath(os.path.dirname(__file__))
-    html_file_path = os.path.join(current_path, '..', 'src', 'index.html')
-
     options = Options()
     options.headless = True
     driver = webdriver.Firefox(options=options)
-    driver.get(f"file://{html_file_path}")
+    driver.get("http://3.142.195.209/")
     
     # Get API Key from environment and handle input prompt
     api_key = os.environ['OPENAI_API_KEY']
