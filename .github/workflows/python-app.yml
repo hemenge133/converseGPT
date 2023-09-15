@@ -57,7 +57,7 @@ jobs:
       run: |
         eval $(ssh-agent -s)
         ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
-        ssh -A -o StrictHostKeyChecking=no ec2-user@${{ secrets.BASTION_HOST_IP }} "sshb && cd converseGPT && git pull -f && sudo systemctl restart cgpt"
+        ssh -A -o StrictHostKeyChecking=no ec2-user@${{ secrets.BASTION_HOST_IP }} "source ~/.bashrc; sshb && cd converseGPT && git pull -f && sudo systemctl restart cgpt"
     - name: Test with pytest
       continue-on-error: true
       run: |
@@ -66,9 +66,13 @@ jobs:
     - name: Tag Commit successful if tests pass
       if: ${{ success() }}
       run: |
-        ssh -A -o StrictHostKeyChecking=no ec2-user@${{ secrets.BASTION_HOST_IP }} "sshb && cd converseGPT && git tag -f last-successful-deployment ${{ github.sha }} && git push --tags -f"
+        eval $(ssh-agent -s)
+        ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
+        ssh -A -o StrictHostKeyChecking=no ec2-user@${{ secrets.BASTION_HOST_IP }} "source ~/.bashrc; sshb && cd converseGPT && git tag -f last-successful-deployment ${{ github.sha }} && git push --tags -f"
     - name: Rollback if tests fail
       if: ${{ failure() }}
       run: |
-        ssh -A -o StrictHostKeyChecking=no  ec2-user@${{ secrets.BASTION_HOST_IP }} "sshb && cd converseGPT && git reset --hard last-successful-deployment && sudo systemctl restart cgpt"
+        eval $(ssh-agent -s)
+        ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
+        ssh -A -o StrictHostKeyChecking=no  ec2-user@${{ secrets.BASTION_HOST_IP }} "source ~/.bashrc; sshb && cd converseGPT && git reset --hard last-successful-deployment && sudo systemctl restart cgpt"
         exit 1 # Fail workflow
