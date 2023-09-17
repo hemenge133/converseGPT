@@ -57,7 +57,7 @@ jobs:
       run: |
         eval $(ssh-agent -s)
         ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
-        ssh -A -o StrictHostKeyChecking=no LogLevel=ERROR ec2-user@${{ secrets.BASTION_HOST_IP }} "ssh backend 'cd /home/ubuntu/converseGPT && git pull -f && sudo systemctl restart cgpt'" 1>/dev/null
+        ssh -A -o "StrictHostKeyChecking=no" -o "LogLevel=ERROR" ec2-user@${{ secrets.BASTION_HOST_IP }} "ssh backend 'cd /home/ubuntu/converseGPT && git pull -f && sudo systemctl restart cgpt'"
     - name: Test with pytest
       continue-on-error: true
       run: |
@@ -75,10 +75,10 @@ jobs:
         git config --global http.https://github.com/.extraheader "AUTHORIZATION: basic ${{ secrets.WORKFLOW_PAT }}"
         eval $(ssh-agent -s)
         ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
-        git tag -f last-successful-deployment $${{ github.sha }} && git push --tags -f
+        git tag last-successful-deployment $${{ github.sha }} && git push --tags
     - name: Rollback if tests fail
       if: ${{ failure() }}
       run: |
         eval $(ssh-agent -s)
         ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
-        ssh -A -o  StrictHostKeyChecking=no LogLevel=ERROR ec2-user@${{ secrets.BASTION_HOST_IP }} "ssh backend 'cd /home/ubuntu/converseGPT && git reset --hard last-successful-deployment && sudo systemctl restart cgpt'"
+        ssh -A -o "StrictHostKeyChecking=no" -o "LogLevel=ERROR" ec2-user@${{ secrets.BASTION_HOST_IP }} "ssh backend 'cd /home/ubuntu/converseGPT && git reset --hard last-successful-deployment && sudo systemctl restart cgpt'"
