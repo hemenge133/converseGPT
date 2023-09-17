@@ -46,7 +46,6 @@ jobs:
     - name: Install Pip dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest flask flask-session redis selenium python-dotenv
         if [ -f serve_requirements.txt ]; then pip install -r serve_requirements.txt; fi
     - name: Lint with flake8
       run: |
@@ -64,12 +63,19 @@ jobs:
       run: |
         cd tst
         pytest
+
+        if [$? -ne 0]; then
+          exit 1
+        fi
     - name: Tag Commit successful if tests pass
       if: ${{ success() }}
       run: |
+        git config --global user.email "32338288+hemenge133@users.noreply.github.com"
+        git config --global user.name "Hayden Menge"
+        git config --global http.https://github.com/.extraheader "AUTHORIZATION: basic ${{ secrets.WORKFLOW_PAT }}"
         eval $(ssh-agent -s)
         ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
-        ssh -A -o StrictHostKeyChecking=no ec2-user@${{ secrets.BASTION_HOST_IP }} "ssh backend 'cd /home/ubuntu/converseGPT && git tag -f last-successful-deployment ${{ github.sha }} && git push --tags -f'"
+        git tag -f last-successful-deployment $${{ github.sha }} && git push --tags -f
     - name: Rollback if tests fail
       if: ${{ failure() }}
       run: |
