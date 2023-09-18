@@ -72,7 +72,7 @@ jobs:
         eval $(ssh-agent -s)
         ssh-add <(echo "${{ secrets.GIT_SSH_KEY }}")
         ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
-        git tag last-successful-deployment ${{ github.sha }} && git push --tags
+        git tag -f last-successful-deployment ${{ github.sha }} && git push --tags -f
     - name: Rollback if tests fail
       if: ${{ env.failed == true }}
       run: |
