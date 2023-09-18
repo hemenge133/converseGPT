@@ -61,14 +61,11 @@ jobs:
     - name: Test with pytest
       continue-on-error: true
       run: |
+        set -e
         cd tst
-        pytest
-
-        if [$? -ne 0]; then
-          exit 1
-        fi
+        pytest || echo "failed=true" >> $GITHUB_ENV
     - name: Tag Commit successful if tests pass
-      if: ${{ success() }}
+      if: env.failed = 'true'
       run: |
         git config --global user.email "32338288+hemenge133@users.noreply.github.com"
         git config --global user.name "Hayden Menge"
@@ -77,7 +74,7 @@ jobs:
         ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
         git tag last-successful-deployment $${{ github.sha }} && git push --tags
     - name: Rollback if tests fail
-      if: ${{ failure() }}
+      if: env.failed != true
       run: |
         eval $(ssh-agent -s)
         ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
