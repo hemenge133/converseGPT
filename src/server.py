@@ -19,7 +19,7 @@ SESSION_PERMANENT = False # Close session when browser closes
 SESSION_USE_SIGNER = False # Encrypt the session cookie
 SESSION_KEY_PREFIX = 'redis_alpha:'
 SESSION_COOKIE_SAMESITE = 'Strict'
-SESSION_REDIS = redis.StrictRedis(host='10.0.133.143', port=6379, db=0)
+SESSION_REDIS = redis.StrictRedis(host='10.0.133.143', port=6380, db=0)
 application.config.from_object(__name__)
 Session(application)
 

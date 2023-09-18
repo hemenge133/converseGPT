@@ -6,8 +6,8 @@
   * Need to encrypt the drives of proxy, backend, and cache hosts (Encryption at rest)
     * Create snapshots, new encrypted EBS volumes from snapshots, swap with original 
   * Need to change the protocol to HTTPS for: (Encryption in flight)
-    * proxy => backend
-    * backend => redis
+    * proxy => backend [DONE]
+    * backend => redis 
   * Attach SSL cert to public domain, nginx already configured for HTTPS
 
 ## Testing
