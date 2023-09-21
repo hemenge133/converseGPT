@@ -4,7 +4,7 @@
   * Would need to add apt endpoints manually or manually reset the ingress rules whenever I want to update
 * Encryption:
   * Need to encrypt the drives of proxy, backend, and cache hosts (Encryption at rest)
-    * Create snapshots, new encrypted EBS volumes from snapshots, swap with original 
+    * Create snapshots, new encrypted EBS volumes from snapshots, swap with original [DONE]
   * Need to change the protocol to HTTPS for: (Encryption in flight)
     * proxy => backend [DONE]
     * backend => redis [DONE]

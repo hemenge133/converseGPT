@@ -93,7 +93,7 @@
         const api_key = prompt("Enter OpenAI API Key:");
 
         if (api_key) {
-            fetch('http://3.142.195.209/reset_chat_agent', {
+            fetch('https://3.145.43.241/reset_chat_agent', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -127,7 +127,7 @@
             userInput.value = '';
 
             // Send the user's message to the server
-            fetch('http://3.142.195.209/send_message', {
+            fetch('https://3.145.43.241/send_message', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
