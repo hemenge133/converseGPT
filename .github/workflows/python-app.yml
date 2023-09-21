@@ -57,7 +57,7 @@ jobs:
       run: |
         eval $(ssh-agent -s)
         ssh-add <(echo "${{ secrets.CGPT_SERVER_KEY }}")
-        ssh -A -o "StrictHostKeyChecking=no" -o "LogLevel=ERROR" ec2-user@${{ secrets.BASTION_HOST_IP }} "ssh backend 'cd /home/ubuntu/converseGPT && git pull -f && sudo systemctl restart cgpt'"
+        ssh -A -o "StrictHostKeyChecking=no" -o "LogLevel=ERROR" ec2-user@${{ secrets.BASTION_HOST_IP }} "ssh backend 'cd /home/ubuntu/converseGPT && git reset --hard && git pull -f && sudo systemctl restart cgpt'"
     - name: Test with pytest
       continue-on-error: true
       run: |
