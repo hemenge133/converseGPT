@@ -14,8 +14,8 @@
     - Cache for sessions (redis)
     - Proxy server (nginx)
  
-## [Live Demo](http://13.59.92.214/)
-Note: As this is currently more of a WIP than a product, you must use your own OpenAI API key in the live demo. 
+## [Live Demo](https://conversegptapp.net/)
+Note: As this is currently more of a WIP than a product, you must use your own OpenAI API key in the live demo.
   
 ![alt text](https://github.com/hemenge133/converseGPT/blob/main/imgs/ss_dark.png?raw=true)
 ![alt text](https://github.com/hemenge133/converseGPT/blob/main/imgs/ss_light.png?raw=true)
