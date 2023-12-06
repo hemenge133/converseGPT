@@ -1,4 +1,5 @@
-# converseGPT [In Development]
+# converseGPT [DEPRECATED]
+## With the launch of OpenAI's Custom GPTs, it doesn't make sense to put time into a wrapper around their APIs anymore.
 ## GPT-based chat app and infra-as-code backend to enable anybody to scale a customized chat app stably with no / minimal coding required.
 
 
